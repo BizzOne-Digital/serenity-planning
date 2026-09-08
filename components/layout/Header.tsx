@@ -67,10 +67,10 @@ export default function Header() {
           <LanguageToggle />
           <a
             href="tel:2108549095"
-            className="flex items-center gap-1.5 text-sm font-medium text-ivory/90 hover:text-gold-warm"
+            className="flex items-center gap-2 rounded-full border-2 border-gold-warm px-4 py-2 text-sm font-bold text-gold-champagne transition-colors hover:bg-gold-warm hover:text-purple-deep"
           >
             <Phone className="h-4 w-4" aria-hidden="true" />
-            210-854-9095
+            Call/Text 210-854-9095
           </a>
           <Link
             href="/booking"
@@ -80,14 +80,23 @@ export default function Header() {
           </Link>
         </div>
 
-        <button
-          className="md:hidden text-ivory"
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
+        <div className="flex items-center gap-3 md:hidden">
+          <a
+            href="tel:2108549095"
+            aria-label="Call or text 210-854-9095"
+            className="flex items-center justify-center rounded-full border-2 border-gold-warm p-2 text-gold-champagne"
+          >
+            <Phone className="h-5 w-5" aria-hidden="true" />
+          </a>
+          <button
+            className="text-ivory"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
       </div>
 
       <AnimatePresence>
@@ -109,8 +118,11 @@ export default function Header() {
                   {link.label}
                 </Link>
               ))}
-              <a href="tel:2108549095" className="flex items-center gap-2 px-3 py-3 text-base text-ivory">
-                <Phone className="h-4 w-4" /> 210-854-9095
+              <a
+                href="tel:2108549095"
+                className="mx-3 flex items-center justify-center gap-2 rounded-full border-2 border-gold-warm py-3 text-base font-bold text-gold-champagne"
+              >
+                <Phone className="h-4 w-4" /> Call/Text 210-854-9095
               </a>
               <div className="px-3 py-2">
                 <LanguageToggle />

@@ -12,6 +12,10 @@ import {
   Compass,
   ClipboardCheck,
   Signpost,
+  HeartPulse,
+  Wallet,
+  MapPinned,
+  CalendarCheck2,
 } from "lucide-react";
 import { getPageContent, getPublishedFaqs, getPublishedServices, getPublishedTestimonials } from "@/lib/data";
 import { faqJsonLd, servicesJsonLd } from "@/lib/jsonld";
@@ -116,6 +120,20 @@ export default async function HomePage() {
           <BenefitCard icon={ClipboardCheck} title="Personalized Planning" description="Plans designed around your wishes." />
           <BenefitCard icon={HandCoins} title="Affordable Options" description="Understand your available options clearly." />
           <BenefitCard icon={Users} title="Family Peace of Mind" description="Reduce difficult decisions for your loved ones." />
+        </div>
+      </section>
+
+      {/* Why Choose Serenity Planning */}
+      <section className="py-16 md:py-20">
+        <div className="mx-auto max-w-6xl px-6">
+          <SectionHeading eyebrow="Why Families Choose Us" heading="Why Choose Serenity Planning?" />
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+            <BenefitCard icon={HeartPulse} title="Compassionate Guidance" description="Personal, caring support at every step." />
+            <BenefitCard icon={MessageCircleHeart} title="No-Pressure Consultations" description="Ask questions freely — no obligation, ever." />
+            <BenefitCard icon={Wallet} title="Options for Every Budget" description="Plans that fit your financial circumstances." />
+            <BenefitCard icon={MapPinned} title="Local San Antonio Service" description="Proudly serving families across our community." />
+            <BenefitCard icon={CalendarCheck2} title="Helping Families Plan Ahead" description="So your loved ones are never left guessing." />
+          </div>
         </div>
       </section>
 
