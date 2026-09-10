@@ -36,6 +36,11 @@ export default function Footer() {
               <li>Burial Pre-Need Plans</li>
               <li>Cremation Pre-Need Plans</li>
               <li>Memorial Service Planning</li>
+              <li>
+                <Link href="/memorial-tshirts" className="hover:text-gold-warm">
+                  In Memory Of T-Shirts
+                </Link>
+              </li>
             </ul>
           </div>
 

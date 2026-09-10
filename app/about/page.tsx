@@ -57,6 +57,35 @@ export default async function AboutPage() {
         subtext={hero?.subtext || "Guiding San Antonio families with honesty and heart."}
       />
 
+      <section className="py-16 md:py-20">
+        <div className="mx-auto max-w-3xl px-6 text-center">
+          <FadeIn>
+            <div className="overflow-hidden rounded-2xl border border-gold-warm/30 shadow-xl">
+              <video
+                src="/serenity-intro.mp4"
+                controls
+                playsInline
+                preload="metadata"
+                className="w-full"
+              >
+                Your browser does not support the video tag.
+              </video>
+            </div>
+            <p className="mt-6 text-ink/75 leading-relaxed">
+              Your final arrangements are one of the most important decisions you can make for your family.
+              Planning ahead can help relieve emotional and financial stress when your loved ones need you
+              most.
+            </p>
+            <p className="mt-3 font-semibold text-purple-deep">
+              <a href="tel:2108549095" className="hover:text-gold-warm">
+                Call 210-854-9095
+              </a>{" "}
+              to learn more about your pre-need options.
+            </p>
+          </FadeIn>
+        </div>
+      </section>
+
       <section className="overflow-hidden py-20 md:py-24">
         <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 lg:grid-cols-2">
           <FadeIn>
