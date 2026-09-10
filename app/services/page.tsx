@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { getPageContent, getPublishedServices } from "@/lib/data";
 import { servicesJsonLd } from "@/lib/jsonld";
+import { Heart } from "lucide-react";
+import Link from "next/link";
 import PageHero from "@/components/ui/PageHero";
 import ServiceCard from "@/components/sections/ServiceCard";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
@@ -80,6 +82,31 @@ export default async function ServicesPage() {
             Casket styles shown are examples only. Availability, pricing and military emblem options vary by
             provider and selected arrangement — we&apos;ll review current options during your consultation.
           </p>
+        </div>
+      </section>
+
+      {/* Memorial T-shirts callout */}
+      <section className="py-16">
+        <div className="mx-auto max-w-4xl px-6">
+          <FadeIn>
+            <Link
+              href="/memorial-tshirts"
+              className="group flex flex-col items-center gap-4 rounded-2xl border border-gold-warm/40 bg-purple-deep px-8 py-10 text-center transition-colors hover:bg-purple-primary sm:flex-row sm:text-left"
+            >
+              <Heart className="h-10 w-10 shrink-0 text-gold-warm" aria-hidden="true" />
+              <div className="flex-1">
+                <h3 className="font-serif text-2xl font-semibold text-ivory">
+                  In Memory Of — Custom Memorial T-Shirts
+                </h3>
+                <p className="mt-1 text-ivory/75">
+                  A lasting, wearable tribute to honor the life and memory of someone you love.
+                </p>
+              </div>
+              <span className="shrink-0 rounded-full bg-gold-warm px-5 py-2.5 text-sm font-semibold text-purple-deep transition-colors group-hover:bg-gold-champagne">
+                View Examples
+              </span>
+            </Link>
+          </FadeIn>
         </div>
       </section>
 
