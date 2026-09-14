@@ -1,8 +1,9 @@
+import nodemailer, { type Transporter } from "nodemailer";
+
 /**
  * Optional SMTP notification helper.
  * No-ops gracefully when SMTP env vars are not configured, and never blocks
- * or fails the calling database write. Nodemailer is intentionally not a
- * dependency — wiring one in later is a drop-in change inside sendViaSmtp().
+ * or fails the calling database write.
  */
 export async function sendNotificationEmail(subject: string, text: string): Promise<void> {
   const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, MAIL_FROM, MAIL_TO } = process.env;
@@ -19,7 +20,21 @@ export async function sendNotificationEmail(subject: string, text: string): Prom
   }
 }
 
-async function sendViaSmtp(_options: {
+let cachedTransporter: Transporter | null = null;
+
+function getTransporter(host: string, port: string, user: string, pass: string): Transporter {
+  if (cachedTransporter) return cachedTransporter;
+  const portNum = Number(port);
+  cachedTransporter = nodemailer.createTransport({
+    host,
+    port: portNum,
+    secure: portNum === 465,
+    auth: { user, pass },
+  });
+  return cachedTransporter;
+}
+
+async function sendViaSmtp(options: {
   subject: string;
   text: string;
   host: string;
@@ -29,8 +44,11 @@ async function sendViaSmtp(_options: {
   from: string;
   to: string;
 }): Promise<void> {
-  // Placeholder: no email transport is bundled by default. Install and wire
-  // up `nodemailer` (or a preferred provider SDK) here if SMTP notifications
-  // are needed in production.
-  return;
+  const transporter = getTransporter(options.host, options.port, options.user, options.pass);
+  await transporter.sendMail({
+    from: `"Serenity Planning Website" <${options.from}>`,
+    to: options.to,
+    subject: options.subject,
+    text: options.text,
+  });
 }
