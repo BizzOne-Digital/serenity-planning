@@ -148,6 +148,10 @@ export default async function AboutPage() {
             <p className="mt-4 font-serif text-xl italic text-purple-primary">
               &ldquo;{founder.quote || "Plan Today. Protect Tomorrow. Give Your Family Peace of Mind."}&rdquo;
             </p>
+            <p className="mx-auto mt-6 max-w-xl text-ink/70 leading-relaxed">
+              I want to thank God for allowing me the opportunity to help families and serve our community.
+              Every family I&apos;ve had the privilege to guide is a blessing I don&apos;t take for granted.
+            </p>
           </FadeIn>
           <div className="mt-10 grid gap-6 sm:grid-cols-3">
             <BenefitCard icon={Users} title="People First" description="Every conversation starts with listening." />
