@@ -46,10 +46,13 @@ export async function POST(req: NextRequest) {
     const { website: _website, ...data } = parsed.data;
     const inquiry = await Inquiry.create(data);
 
-    sendNotificationEmail(
+    // Awaited so the notification actually completes before this serverless
+    // function returns/freezes — a detached fire-and-forget promise here was
+    // silently dropped on Vercel before the SMTP send finished.
+    await sendNotificationEmail(
       "New Inquiry - Serenity Planning",
       `New inquiry from ${inquiry.fullName} (${inquiry.email}). Message: ${inquiry.message}`
-    ).catch(() => {});
+    );
 
     return NextResponse.json({ success: true, inquiry }, { status: 201 });
   } catch (err) {
