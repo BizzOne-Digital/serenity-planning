@@ -15,8 +15,8 @@ const initialState = {
   website: "",
 };
 
-export default function ContactForm() {
-  const [form, setForm] = useState(initialState);
+export default function ContactForm({ defaultInterest = "" }: { defaultInterest?: string }) {
+  const [form, setForm] = useState({ ...initialState, interestedIn: defaultInterest });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -43,7 +43,7 @@ export default function ContactForm() {
       }
 
       setSuccess(true);
-      setForm(initialState);
+      setForm({ ...initialState, interestedIn: defaultInterest });
     } catch {
       setFormError("Something went wrong. Please try again.");
     } finally {
@@ -137,6 +137,7 @@ export default function ContactForm() {
             <option>Burial Planning</option>
             <option>Cremation Planning</option>
             <option>Memorial Planning</option>
+            <option>Memorial T-Shirt</option>
             <option>General Information</option>
             <option>Not Sure Yet</option>
           </select>

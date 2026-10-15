@@ -14,10 +14,12 @@ export default function FadeIn({
   const reduceMotion = useReducedMotion();
   return (
     <motion.div
-      initial={reduceMotion ? undefined : { opacity: 0, y: 24 }}
-      whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+      // Keep server-rendered content visible, including before hydration and
+      // when a reduced-motion preference disables entrance animation.
+      initial={false}
+      whileInView={reduceMotion ? { opacity: 1, y: 0 } : { opacity: [0.75, 1], y: [16, 0] }}
       viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.6, delay }}
+      transition={{ duration: reduceMotion ? 0 : 0.6, delay: reduceMotion ? 0 : delay }}
       className={className}
     >
       {children}

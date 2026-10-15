@@ -9,30 +9,28 @@ import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import SafeImage from "@/components/ui/SafeImage";
 import SectionHeading from "@/components/ui/SectionHeading";
 import FadeIn from "@/components/ui/FadeIn";
+import { PAGE_SEO, buildMetadata } from "@/lib/seo";
 
 const CASKETS = [
-  { src: "/casket-marines.jpg", alt: "U.S. Marine Corps memorial casket" },
-  { src: "/casket-army.jpg", alt: "U.S. Army memorial casket" },
-  { src: "/casket-airforce.jpg", alt: "U.S. Air Force memorial casket" },
-  { src: "/casket-green.jpg", alt: "Traditional green casket option" },
-  { src: "/casket-white-rose.jpg", alt: "White and rose-gold casket option" },
+  { src: "/casket-marines.jpg", alt: "Example casket design with U.S. Marine Corps emblem", width: 1427, height: 873 },
+  { src: "/casket-army.jpg", alt: "Example casket design with U.S. Army emblem", width: 1412, height: 864 },
+  { src: "/casket-airforce.jpg", alt: "Example casket design with U.S. Air Force emblem", width: 1409, height: 886 },
+  { src: "/casket-green.jpg", alt: "Example traditional green casket design", width: 640, height: 430 },
+  { src: "/casket-white-rose.jpg", alt: "Example white and rose-gold casket design", width: 1500, height: 1000 },
 ];
+
+const GALLERY_SIZES = "(min-width: 1024px) 368px, (min-width: 640px) 50vw, 100vw";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const content = await getPageContent("services");
-  return {
-    title: content?.seo?.title || "Planning Services | Serenity Planning San Antonio",
-    description:
-      content?.seo?.description ||
-      "Explore pre-need burial, cremation and memorial planning services offered by Serenity Planning.",
-  };
+  return buildMetadata("services", content?.seo);
 }
 
 export default async function ServicesPage() {
   const [content, services] = await Promise.all([getPageContent("services"), getPublishedServices()]);
-  const hero = (content?.sections as Record<string, { heading?: string }> | undefined)?.hero;
+  const hero = (content?.sections as Record<string, { heading?: string; subtext?: string }> | undefined)?.hero;
 
   return (
     <>
@@ -40,13 +38,24 @@ export default async function ServicesPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesJsonLd(services)) }}
       />
-      <PageHero heading={hero?.heading || "Pre-Need Planning With Compassion and Clarity"} />
+      <PageHero
+        heading={hero?.heading || PAGE_SEO.services.h1}
+        subtext={
+          hero?.subtext ||
+          "Pre-need planning with compassion and clarity for San Antonio families. Each option below explains what we help you plan and decide."
+        }
+      />
 
       <section className="py-20 md:py-24">
         <div className="mx-auto max-w-6xl px-6">
+          <SectionHeading
+            eyebrow="Our Services"
+            heading="Pre-Need Planning Services We Offer"
+            subtext="Every plan is built around your wishes. Inclusions, pricing and availability depend on the provider and the arrangement you choose, and we review them with you before you decide."
+          />
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((s, i) => (
-              <ServiceCard key={s._id} service={s} index={i} />
+              <ServiceCard key={s._id} service={s} index={i} detailed />
             ))}
           </div>
         </div>
@@ -57,13 +66,20 @@ export default async function ServicesPage() {
         <div className="mx-auto max-w-6xl px-6">
           <SectionHeading
             eyebrow="Casket Options"
-            heading="A Range of Dignified Options, Including Military Honors"
+            heading="Example Casket Designs, Including Military-Themed Options"
           />
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {CASKETS.map((c, i) => (
               <FadeIn key={c.src} delay={i * 0.05}>
                 <div className="overflow-hidden rounded-2xl border border-gold-warm/30 bg-white shadow-md">
-                  <SafeImage src={c.src} alt={c.alt} className="aspect-[4/3] w-full object-cover" />
+                  <SafeImage
+                    src={c.src}
+                    alt={c.alt}
+                    width={c.width}
+                    height={c.height}
+                    sizes={GALLERY_SIZES}
+                    className="aspect-[4/3] w-full object-cover"
+                  />
                 </div>
               </FadeIn>
             ))}
@@ -72,6 +88,9 @@ export default async function ServicesPage() {
                 <SafeImage
                   src="/ricardo-showroom.jpg"
                   alt="Ricardo Mercado in the Serenity Planning showroom"
+                  width={957}
+                  height={960}
+                  sizes={GALLERY_SIZES}
                   className="mb-4 aspect-[4/3] w-full rounded-xl object-cover"
                 />
                 <p className="font-serif text-lg italic text-gold-champagne">Affordable Funeral Plans</p>
@@ -79,8 +98,10 @@ export default async function ServicesPage() {
             </FadeIn>
           </div>
           <p className="mt-6 text-center text-xs text-ink/50">
-            Casket styles shown are examples only. Availability, pricing and military emblem options vary by
-            provider and selected arrangement — we&apos;ll review current options during your consultation.
+            Casket styles shown are example designs only. Military emblem designs are a casket style choice; they
+            are not military funeral honors or veterans&apos; benefits. Availability,
+            pricing and emblem options vary by provider and selected arrangement — we&apos;ll review current options
+            during your consultation.
           </p>
         </div>
       </section>
@@ -95,15 +116,15 @@ export default async function ServicesPage() {
             >
               <Heart className="h-10 w-10 shrink-0 text-gold-warm" aria-hidden="true" />
               <div className="flex-1">
-                <h3 className="font-serif text-2xl font-semibold text-ivory">
+                <h2 className="font-serif text-2xl font-semibold text-ivory">
                   In Memory Of — Custom Memorial T-Shirts
-                </h3>
+                </h2>
                 <p className="mt-1 text-ivory/75">
                   A lasting, wearable tribute to honor the life and memory of someone you love.
                 </p>
               </div>
               <span className="shrink-0 rounded-full bg-gold-warm px-5 py-2.5 text-sm font-semibold text-purple-deep transition-colors group-hover:bg-gold-champagne">
-                View Examples
+                View Memorial T-Shirt Examples
               </span>
             </Link>
           </FadeIn>

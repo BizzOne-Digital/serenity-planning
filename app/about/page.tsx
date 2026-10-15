@@ -7,17 +7,14 @@ import BenefitCard from "@/components/sections/BenefitCard";
 import FadeIn from "@/components/ui/FadeIn";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import SafeImage from "@/components/ui/SafeImage";
+import Link from "next/link";
+import { ABOUT_HERO_SUBTEXT, PAGE_SEO, buildMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const content = await getPageContent("about");
-  return {
-    title: content?.seo?.title || "About Serenity Planning | Pre-Need Funeral Planning San Antonio",
-    description:
-      content?.seo?.description ||
-      "Learn about Serenity Planning's mission to help San Antonio families plan ahead with peace of mind.",
-  };
+  return buildMetadata("about", content?.seo);
 }
 
 interface FounderSection {
@@ -34,7 +31,7 @@ const DEFAULT_STORY: string[] = [
   "My passion for helping families plan ahead for their final arrangements comes from a very personal place — my mother.",
   "Back in 1986, my mother made a decision that would have a lasting impact on our family. She purchased a pre-need funeral plan and made the commitment to pay for it ahead of time. In just eight years, her plan was completely paid for.",
   "At the time, we may not have fully understood how important that decision would become.",
-  "My mother passed away eight years ago. When that difficult day came, our family was already dealing with the pain of losing someone we loved. But there was one major burden we didn't have to carry: we didn't have to worry about how we were going to pay for her funeral arrangements.",
+  "When my mother passed away, our family was already dealing with the pain of losing someone we loved. But there was one major burden we didn't have to carry: we didn't have to worry about how we were going to pay for her funeral arrangements.",
   "My mother had already taken care of it. She had planned ahead. She had made the decisions. She had paid for her plan years before she ever needed it.",
   "That experience stayed with me. I saw firsthand how planning ahead can give a family something incredibly valuable during one of life's most difficult moments — peace of mind.",
   "That's what motivated me to begin helping other families with pre-need funeral plans.",
@@ -53,8 +50,8 @@ export default async function AboutPage() {
   return (
     <>
       <PageHero
-        heading={hero?.heading || "Our Story"}
-        subtext={hero?.subtext || "Guiding San Antonio families with honesty and heart."}
+        heading={hero?.heading || PAGE_SEO.about.h1}
+        subtext={hero?.subtext || ABOUT_HERO_SUBTEXT}
       />
 
       <section className="py-16 md:py-20">
@@ -63,14 +60,22 @@ export default async function AboutPage() {
             <div className="overflow-hidden rounded-2xl border border-gold-warm/30 shadow-xl">
               <video
                 src="/serenity-intro.mp4"
+                poster="/serenity-intro-poster.jpg"
+                width={1274}
+                height={720}
                 controls
                 playsInline
                 preload="metadata"
-                className="w-full"
+                aria-label="Introduction to Serenity Planning"
+                className="h-auto w-full"
               >
                 Your browser does not support the video tag.
               </video>
             </div>
+            <p className="mt-3 text-sm leading-relaxed text-ink/60">
+              Learn about planning final arrangements ahead of time, discussing burial and cremation preferences,
+              and giving your family clear direction. The story and planning information below are available as text.
+            </p>
             <p className="mt-6 text-ink/75 leading-relaxed">
               Your final arrangements are one of the most important decisions you can make for your family.
               Planning ahead can help relieve emotional and financial stress when your loved ones need you
@@ -94,6 +99,9 @@ export default async function AboutPage() {
               <SafeImage
                 src="/flyer.jpg"
                 alt="Serenity Planning — Ricardo Mercado, Founder"
+                width={1086}
+                height={1448}
+                sizes="(min-width: 640px) 384px, 100vw"
                 className="w-full rounded-2xl object-cover shadow-xl"
               />
             </div>
@@ -114,6 +122,27 @@ export default async function AboutPage() {
               <p>
                 Our goal is not simply to provide funeral plans. Our goal is to serve families through education,
                 honest guidance and personal attention.
+              </p>
+              <p>
+                Ricardo Mercado is the founder of Serenity Planning. His work here focuses on helping families
+                understand their options and document their wishes in advance. When discussing an arrangement,
+                ask which funeral provider would supply it, what is included and which provider terms apply.
+                Planning a service and the provider carrying out that service are separate steps.
+              </p>
+              <p>
+                Learn how we help with{" "}
+                <Link href="/services#burial-pre-need-plans" className="font-semibold text-purple-primary underline hover:text-gold-warm">
+                  burial pre-need plans
+                </Link>
+                ,{" "}
+                <Link href="/services#cremation-pre-need-plans" className="font-semibold text-purple-primary underline hover:text-gold-warm">
+                  cremation pre-need plans
+                </Link>{" "}
+                and the rest of our{" "}
+                <Link href="/services" className="font-semibold text-purple-primary underline hover:text-gold-warm">
+                  pre-need planning services in San Antonio
+                </Link>
+                .
               </p>
             </div>
           </FadeIn>
@@ -139,6 +168,9 @@ export default async function AboutPage() {
               <SafeImage
                 src={founder.image || "/founder-ricardo.png"}
                 alt={founder.name || "Ricardo Mercado"}
+                width={160}
+                height={160}
+                sizes="160px"
                 className="h-full w-full object-cover"
               />
             </div>

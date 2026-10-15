@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import PageHero from "@/components/ui/PageHero";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Terms of Use | Serenity Planning" };
+export const metadata: Metadata = buildMetadata("terms");
 
 export default function TermsPage() {
   return (

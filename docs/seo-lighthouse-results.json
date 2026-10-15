@@ -1,0 +1,160 @@
+{
+  "methodology": "Local production build with public seed fixtures; standard simulated mobile throttling and the Lighthouse desktop preset. Third-party translation was blocked for deterministic measurement. These are lab results, not production field Core Web Vitals.",
+  "lighthouseVersion": "13.5.0",
+  "results": [
+    {
+      "device": "mobile",
+      "path": "/",
+      "performance": 75,
+      "seo": 100,
+      "lcpMs": 4509,
+      "cls": 0,
+      "tbtMs": 369,
+      "errors": null,
+      "failedSeo": []
+    },
+    {
+      "device": "mobile",
+      "path": "/about",
+      "performance": 80,
+      "seo": 100,
+      "lcpMs": 4450,
+      "cls": 0,
+      "tbtMs": 227,
+      "errors": null,
+      "failedSeo": []
+    },
+    {
+      "device": "mobile",
+      "path": "/services",
+      "performance": 82,
+      "seo": 100,
+      "lcpMs": 3950,
+      "cls": 0.000467,
+      "tbtMs": 248,
+      "errors": null,
+      "failedSeo": []
+    },
+    {
+      "device": "mobile",
+      "path": "/contact",
+      "performance": 94,
+      "seo": 100,
+      "lcpMs": 2617,
+      "cls": 0.014122,
+      "tbtMs": 181,
+      "errors": null,
+      "failedSeo": []
+    },
+    {
+      "device": "mobile",
+      "path": "/booking",
+      "performance": 89,
+      "seo": 100,
+      "lcpMs": 2980,
+      "cls": 0,
+      "tbtMs": 253,
+      "errors": null,
+      "failedSeo": []
+    },
+    {
+      "device": "mobile",
+      "path": "/memorial-tshirts",
+      "performance": 94,
+      "seo": 100,
+      "lcpMs": 2324,
+      "cls": 0.004983,
+      "tbtMs": 244,
+      "errors": null,
+      "failedSeo": []
+    },
+    {
+      "device": "mobile",
+      "path": "/privacy-policy",
+      "performance": 92,
+      "seo": 100,
+      "lcpMs": 2834,
+      "cls": 0,
+      "tbtMs": 208,
+      "errors": null,
+      "failedSeo": []
+    },
+    {
+      "device": "desktop",
+      "path": "/",
+      "performance": 99,
+      "seo": 100,
+      "lcpMs": 922,
+      "cls": 0.000335,
+      "tbtMs": 9,
+      "errors": null,
+      "failedSeo": []
+    },
+    {
+      "device": "desktop",
+      "path": "/about",
+      "performance": 99,
+      "seo": 100,
+      "lcpMs": 927,
+      "cls": 0.000433,
+      "tbtMs": 27,
+      "errors": null,
+      "failedSeo": []
+    },
+    {
+      "device": "desktop",
+      "path": "/services",
+      "performance": 99,
+      "seo": 100,
+      "lcpMs": 893,
+      "cls": 0.001002,
+      "tbtMs": 16,
+      "errors": null,
+      "failedSeo": []
+    },
+    {
+      "device": "desktop",
+      "path": "/contact",
+      "performance": 99,
+      "seo": 100,
+      "lcpMs": 826,
+      "cls": 0.015384,
+      "tbtMs": 29,
+      "errors": null,
+      "failedSeo": []
+    },
+    {
+      "device": "desktop",
+      "path": "/booking",
+      "performance": 100,
+      "seo": 100,
+      "lcpMs": 585,
+      "cls": 0.000988,
+      "tbtMs": 17,
+      "errors": null,
+      "failedSeo": []
+    },
+    {
+      "device": "desktop",
+      "path": "/memorial-tshirts",
+      "performance": 100,
+      "seo": 100,
+      "lcpMs": 598,
+      "cls": 0.000823,
+      "tbtMs": 39,
+      "errors": null,
+      "failedSeo": []
+    },
+    {
+      "device": "desktop",
+      "path": "/privacy-policy",
+      "performance": 100,
+      "seo": 100,
+      "lcpMs": 547,
+      "cls": 0.000618,
+      "tbtMs": 20,
+      "errors": null,
+      "failedSeo": []
+    }
+  ]
+}

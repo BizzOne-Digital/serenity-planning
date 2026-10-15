@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Menu, Phone, X } from "lucide-react";
@@ -41,10 +42,12 @@ export default function Header() {
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6">
         <Link href="/" className="flex items-center" aria-label="Serenity Planning — Home">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src="/logo.png"
             alt="Serenity Planning — Pre-Need Services"
+            width={192}
+            height={64}
+            priority
             className={`w-auto transition-all duration-300 ${scrolled ? "h-12" : "h-16"}`}
           />
         </Link>

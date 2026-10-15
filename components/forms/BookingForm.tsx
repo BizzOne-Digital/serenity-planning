@@ -199,7 +199,7 @@ export default function BookingForm() {
         className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gold-warm px-7 py-3.5 text-base font-semibold text-purple-deep transition-colors hover:bg-gold-champagne disabled:opacity-60 md:w-auto"
       >
         {submitting && <Loader2 className="h-4 w-4 animate-spin" />}
-        Book a Consultation
+        Request a Consultation
       </button>
 
       <style jsx>{`

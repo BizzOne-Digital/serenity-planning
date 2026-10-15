@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import PageHero from "@/components/ui/PageHero";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Disclaimer | Serenity Planning" };
+export const metadata: Metadata = buildMetadata("disclaimer");
 
 export default function DisclaimerPage() {
   return (

@@ -5,6 +5,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ToastProvider from "@/components/ui/ToastProvider";
 import { organizationJsonLd } from "@/lib/jsonld";
+import { BRAND, DEFAULT_OG_IMAGE, PAGE_SEO, SITE_URL } from "@/lib/seo";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -18,16 +19,22 @@ const inter = Inter({
   display: "swap",
 });
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-
+// Fallbacks only: every public page supplies its own title, description, canonical and
+// Open Graph tags through buildMetadata() in lib/seo.ts.
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Serenity Planning | Pre-Need Burial & Cremation Planning in San Antonio, TX",
-    template: "%s | Serenity Planning",
+    default: PAGE_SEO.home.title,
+    template: `%s | ${BRAND}`,
   },
-  description:
-    "Affordable, pressure-free burial and cremation planning for San Antonio families. Schedule a no-obligation consultation with Serenity Planning today.",
+  description: PAGE_SEO.home.description,
+  openGraph: {
+    type: "website",
+    siteName: BRAND,
+    locale: "en_US",
+    images: [DEFAULT_OG_IMAGE],
+  },
+  twitter: { card: "summary_large_image", images: [DEFAULT_OG_IMAGE.url] },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

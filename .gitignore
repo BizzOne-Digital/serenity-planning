@@ -25,3 +25,6 @@ next-env.d.ts
 
 .vercel
 .env*
+
+# Local SEO verification artifacts and isolated browser profile
+/.qa/

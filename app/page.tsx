@@ -4,7 +4,6 @@ import {
   HeartHandshake,
   HandCoins,
   Users,
-  Lock,
   CheckCircle2,
   Phone,
   MessageCircleHeart,
@@ -28,17 +27,14 @@ import FadeIn from "@/components/ui/FadeIn";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import SecondaryButton from "@/components/ui/SecondaryButton";
 import SafeImage from "@/components/ui/SafeImage";
+import Image from "next/image";
+import { PAGE_SEO, buildMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const content = await getPageContent("home");
-  return {
-    title: content?.seo?.title || "Serenity Planning | Pre-Need Burial & Cremation Planning in San Antonio, TX",
-    description:
-      content?.seo?.description ||
-      "Affordable, pressure-free burial and cremation planning for San Antonio families.",
-  };
+  return buildMetadata("home", content?.seo);
 }
 
 const HOW_IT_WORKS = [
@@ -74,20 +70,29 @@ export default async function HomePage() {
       )}
 
       {/* Hero */}
-      <section
-        className="relative flex min-h-[100svh] items-center overflow-hidden bg-purple-deep bg-cover bg-[position:65%_center] py-28 sm:min-h-[90vh] sm:bg-center md:min-h-[92vh]"
-        style={{ backgroundImage: "url('/hero.png')" }}
-      >
+      <section className="relative flex min-h-[100svh] items-center overflow-hidden bg-purple-deep py-28 sm:min-h-[90vh] md:min-h-[92vh]">
+        {/* Decorative background photo: optimized, responsive and prioritized as the LCP image */}
+        <Image
+          src="/hero.jpg"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-[65%_center] sm:object-center"
+        />
         {/* Scrim so text stays readable over the flowers/photo on every crop */}
         <div className="absolute inset-0 bg-gradient-to-r from-purple-deep/90 via-purple-deep/55 to-transparent sm:from-purple-deep/85 sm:via-purple-deep/35 sm:to-transparent" />
 
         <div className="relative mx-auto w-full max-w-7xl px-6">
           <div className="max-w-xl text-left">
             <FadeIn>
-              <h1 className="font-serif text-4xl font-semibold leading-tight text-white [text-shadow:0_2px_20px_rgba(0,0,0,0.55)] md:text-6xl">
+              <h1 className="mb-4 text-sm font-semibold uppercase tracking-widest text-gold-champagne [text-shadow:0_2px_10px_rgba(0,0,0,0.6)] md:text-base">
+                {PAGE_SEO.home.h1}
+              </h1>
+              <p className="font-serif text-4xl font-semibold leading-tight text-white [text-shadow:0_2px_20px_rgba(0,0,0,0.55)] md:text-6xl">
                 {hero.heading || "Give Your Loved Ones"}{" "}
                 <span className="text-gold-champagne">{hero.headingEmphasis || "Peace of Mind"}</span>
-              </h1>
+              </p>
               <p className="mt-6 max-w-lg text-lg leading-relaxed text-white [text-shadow:0_2px_12px_rgba(0,0,0,0.6)]">
                 {hero.subtext ||
                   "Affordable burial and cremation planning with compassionate, pressure-free guidance for families in San Antonio and surrounding communities."}
@@ -116,10 +121,10 @@ export default async function HomePage() {
       {/* Trust strip */}
       <section className="bg-cream py-14">
         <div className="mx-auto grid max-w-6xl gap-8 px-6 sm:grid-cols-2 lg:grid-cols-4">
-          <BenefitCard icon={HeartHandshake} title="Pressure-Free Guidance" description="No pressure. Just caring support." />
-          <BenefitCard icon={ClipboardCheck} title="Personalized Planning" description="Plans designed around your wishes." />
-          <BenefitCard icon={HandCoins} title="Affordable Options" description="Understand your available options clearly." />
-          <BenefitCard icon={Users} title="Family Peace of Mind" description="Reduce difficult decisions for your loved ones." />
+          <BenefitCard titleAs="p" icon={HeartHandshake} title="Pressure-Free Guidance" description="No pressure. Just caring support." />
+          <BenefitCard titleAs="p" icon={ClipboardCheck} title="Personalized Planning" description="Plans designed around your wishes." />
+          <BenefitCard titleAs="p" icon={HandCoins} title="Affordable Options" description="Understand your available options clearly." />
+          <BenefitCard titleAs="p" icon={Users} title="Family Peace of Mind" description="Reduce difficult decisions for your loved ones." />
         </div>
       </section>
 
@@ -146,6 +151,9 @@ export default async function HomePage() {
               <SafeImage
                 src="/flyer.jpg"
                 alt="Serenity Planning — Ricardo Mercado, Founder"
+                width={1086}
+                height={1448}
+                sizes="(min-width: 640px) 384px, 100vw"
                 className="w-full rounded-2xl object-cover shadow-xl"
               />
             </div>
@@ -188,7 +196,7 @@ export default async function HomePage() {
           <SectionHeading eyebrow="Our Services" heading="Ways We Help You Plan Ahead" />
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {services.map((s, i) => (
-              <ServiceCard key={s._id} service={s} index={i} />
+              <ServiceCard key={s._id} service={s} index={i} href={`/services#${s.slug}`} />
             ))}
           </div>
         </div>
@@ -197,10 +205,11 @@ export default async function HomePage() {
       {/* Lock in pricing CTA */}
       <section className="bg-gradient-to-br from-purple-primary to-purple-deep py-16">
         <div className="mx-auto max-w-3xl px-6 text-center">
-          <Lock className="mx-auto mb-4 h-9 w-9 text-gold-warm" aria-hidden="true" />
-          <h2 className="font-serif text-2xl font-semibold text-ivory md:text-3xl">Lock In Today&apos;s Pricing</h2>
+          <Wallet className="mx-auto mb-4 h-9 w-9 text-gold-warm" aria-hidden="true" />
+          <h2 className="font-serif text-2xl font-semibold text-ivory md:text-3xl">Understand Available Plan Pricing</h2>
           <p className="mt-3 text-ivory/80">
-            Discuss available plans and pricing options with us before costs may change in the future.
+            Plan pricing depends on the provider and the arrangement you choose. We&apos;ll walk you through current
+            plan pricing and payment options so you can decide what fits your budget.
           </p>
           <p className="mt-2 text-xs text-ivory/60">
             Pricing and availability are not guaranteed and may vary by provider and plan selection.
@@ -214,10 +223,10 @@ export default async function HomePage() {
       {/* Casket inclusion */}
       <section className="bg-cream py-14">
         <div className="mx-auto max-w-3xl px-6 text-center">
-          <h2 className="font-serif text-2xl font-semibold text-purple-deep">Most Plans Include a Casket</h2>
+          <h2 className="font-serif text-2xl font-semibold text-purple-deep">Ask Which Burial Plans Include a Casket</h2>
           <p className="mt-3 text-ink/70">
-            Many of our pre-need plans include a casket as part of the arrangement, helping simplify your planning
-            process.
+            Some burial arrangements include a casket as part of the plan. We&apos;ll confirm exactly what each
+            option includes during your consultation, so you know what is covered before you decide.
           </p>
           <p className="mt-2 text-xs text-ink/50">
             Plan inclusions vary by provider and selected arrangement.
@@ -249,6 +258,9 @@ export default async function HomePage() {
                 <SafeImage
                   src={founder.image}
                   alt={founder.name || "Ricardo Mercado"}
+                  width={220}
+                  height={220}
+                  sizes="220px"
                   className="h-full w-full object-cover"
                 />
               </div>
@@ -295,13 +307,15 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="bg-cream py-20 md:py-24">
-        <div className="mx-auto max-w-4xl px-6">
-          <SectionHeading eyebrow="Testimonials" heading="What Families Are Saying" />
-          <TestimonialsSlider testimonials={testimonials} />
-        </div>
-      </section>
+      {/* Testimonials: hidden until real, approved testimonials are published */}
+      {testimonials.length > 0 && (
+        <section className="bg-cream py-20 md:py-24">
+          <div className="mx-auto max-w-4xl px-6">
+            <SectionHeading eyebrow="Testimonials" heading="What Families Are Saying" />
+            <TestimonialsSlider testimonials={testimonials} />
+          </div>
+        </section>
+      )}
 
       {/* FAQ */}
       <section className="py-20 md:py-24">

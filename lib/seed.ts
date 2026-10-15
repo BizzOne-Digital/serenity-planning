@@ -3,10 +3,13 @@ import SiteSettings from "@/models/SiteSettings";
 import Service from "@/models/Service";
 import FAQ from "@/models/FAQ";
 import PageContent from "@/models/PageContent";
+import { ABOUT_HERO_SUBTEXT, PAGE_SEO } from "@/lib/seo";
+import { SERVICE_DETAILS } from "@/lib/service-details";
 
 let seeded = false;
+let seedingPromise: Promise<void> | undefined;
 
-const DEFAULT_SERVICES = [
+const LEGACY_DEFAULT_SERVICES = [
   {
     title: "Pre-Need Funeral Planning Consultation",
     slug: "pre-need-funeral-planning-consultation",
@@ -95,6 +98,11 @@ const DEFAULT_SERVICES = [
   },
 ];
 
+const DEFAULT_SERVICES = LEGACY_DEFAULT_SERVICES.map((service) => ({
+  ...service,
+  fullDescription: SERVICE_DETAILS[service.slug] || service.fullDescription,
+}));
+
 const DEFAULT_FAQS = [
   {
     question: "What is pre-need funeral planning?",
@@ -148,6 +156,20 @@ const DEFAULT_FAQS = [
 
 export async function ensureSeeded() {
   if (seeded) return;
+  // Metadata and page data can load concurrently. Share initialization so the
+  // same request cannot seed duplicate records or race the legacy migration.
+  if (!seedingPromise) {
+    seedingPromise = initializeContent()
+      .then(() => { seeded = true; })
+      .catch((error) => {
+        seedingPromise = undefined;
+        throw error;
+      });
+  }
+  return seedingPromise;
+}
+
+async function initializeContent() {
   await connectDB();
 
   const [settingsCount, servicesCount, faqsCount, contentCount] = await Promise.all([
@@ -208,44 +230,126 @@ export async function ensureSeeded() {
             note: "No Pressure. No Obligation. Just Honest Guidance.",
           },
         },
-        seo: {
-          title: "Serenity Planning | Pre-Need Burial & Cremation Planning in San Antonio, TX",
-          description:
-            "Affordable, pressure-free burial and cremation planning for San Antonio families. Schedule a no-obligation consultation with Serenity Planning today.",
-        },
+        seo: { title: PAGE_SEO.home.title, description: PAGE_SEO.home.description },
       },
       {
         page: "about",
         sections: {
-          hero: { heading: "Our Story", subtext: "Guiding San Antonio families with honesty and heart." },
+          hero: { heading: PAGE_SEO.about.h1, subtext: ABOUT_HERO_SUBTEXT },
         },
-        seo: {
-          title: "About Serenity Planning | Pre-Need Funeral Planning San Antonio",
-          description: "Learn about Serenity Planning's mission to help San Antonio families plan ahead with peace of mind.",
-        },
+        seo: { title: PAGE_SEO.about.title, description: PAGE_SEO.about.description },
       },
       {
         page: "services",
         sections: {
-          hero: { heading: "Pre-Need Planning With Compassion and Clarity" },
+          hero: { heading: PAGE_SEO.services.h1 },
         },
-        seo: {
-          title: "Planning Services | Serenity Planning San Antonio",
-          description: "Explore pre-need burial, cremation and memorial planning services offered by Serenity Planning.",
-        },
+        seo: { title: PAGE_SEO.services.title, description: PAGE_SEO.services.description },
       },
       {
         page: "contact",
         sections: {
-          hero: { heading: "We're Here to Help You Plan With Peace of Mind" },
+          hero: { heading: PAGE_SEO.contact.h1 },
         },
-        seo: {
-          title: "Contact Serenity Planning | San Antonio, TX",
-          description: "Reach out to Serenity Planning to schedule a no-pressure consultation about your funeral and cremation planning options.",
-        },
+        seo: { title: PAGE_SEO.contact.title, description: PAGE_SEO.contact.description },
       },
     ]);
   }
 
-  seeded = true;
+  await migrateLegacySeo();
+  await migrateLegacyServiceDetails();
+}
+
+type ContentPage = "home" | "about" | "services" | "contact";
+
+/**
+ * SEO audit (Oct 2026): pages seeded before the audit still hold the old titles,
+ * descriptions and generic H1s, which override the new defaults. Replace a value only
+ * while it still equals an old seeded default, so anything edited in the admin is kept.
+ */
+const LEGACY_SEO_VALUES: { page: ContentPage; field: string; from: string[]; to: string }[] = [
+  {
+    page: "home",
+    field: "seo.title",
+    from: ["Serenity Planning | Pre-Need Burial & Cremation Planning in San Antonio, TX"],
+    to: PAGE_SEO.home.title,
+  },
+  {
+    page: "home",
+    field: "seo.description",
+    from: [
+      "Affordable, pressure-free burial and cremation planning for San Antonio families. Schedule a no-obligation consultation with Serenity Planning today.",
+    ],
+    to: PAGE_SEO.home.description,
+  },
+  {
+    page: "about",
+    field: "seo.title",
+    from: ["About Serenity Planning | Pre-Need Funeral Planning San Antonio"],
+    to: PAGE_SEO.about.title,
+  },
+  {
+    page: "about",
+    field: "seo.description",
+    from: ["Learn about Serenity Planning's mission to help San Antonio families plan ahead with peace of mind."],
+    to: PAGE_SEO.about.description,
+  },
+  { page: "about", field: "sections.hero.heading", from: ["Our Story"], to: PAGE_SEO.about.h1 },
+  {
+    page: "about",
+    field: "sections.hero.subtext",
+    from: ["Guiding San Antonio families with honesty and heart."],
+    to: ABOUT_HERO_SUBTEXT,
+  },
+  {
+    page: "services",
+    field: "seo.title",
+    from: ["Planning Services | Serenity Planning San Antonio"],
+    to: PAGE_SEO.services.title,
+  },
+  {
+    page: "services",
+    field: "seo.description",
+    from: ["Explore pre-need burial, cremation and memorial planning services offered by Serenity Planning."],
+    to: PAGE_SEO.services.description,
+  },
+  {
+    page: "services",
+    field: "sections.hero.heading",
+    from: ["Pre-Need Planning With Compassion and Clarity"],
+    to: PAGE_SEO.services.h1,
+  },
+  {
+    page: "contact",
+    field: "seo.description",
+    from: [
+      "Reach out to Serenity Planning to schedule a no-pressure consultation about your funeral and cremation planning options.",
+    ],
+    to: PAGE_SEO.contact.description,
+  },
+  {
+    page: "contact",
+    field: "sections.hero.heading",
+    from: ["We're Here to Help You Plan With Peace of Mind", "We’re Here to Help You Plan With Peace of Mind"],
+    to: PAGE_SEO.contact.h1,
+  },
+];
+
+async function migrateLegacySeo() {
+  await Promise.all(
+    LEGACY_SEO_VALUES.map(({ page, field, from, to }) =>
+      PageContent.updateOne({ page, [field]: { $in: from } }, { $set: { [field]: to } })
+    )
+  );
+}
+
+async function migrateLegacyServiceDetails() {
+  await Promise.all(
+    LEGACY_DEFAULT_SERVICES.map((service) =>
+      Service.updateOne(
+        { slug: service.slug, fullDescription: service.fullDescription },
+        { $set: { fullDescription: SERVICE_DETAILS[service.slug] } }
+      )
+    )
+  );
 }

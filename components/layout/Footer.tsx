@@ -1,5 +1,14 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Facebook, Instagram, Mail, MapPin, Phone } from "lucide-react";
+import { SOCIAL_LINKS } from "@/lib/seo";
+
+const SERVICE_LINKS = [
+  { label: "Pre-Need Funeral Planning", href: "/services#pre-need-funeral-planning-consultation" },
+  { label: "Burial Pre-Need Plans", href: "/services#burial-pre-need-plans" },
+  { label: "Cremation Pre-Need Plans", href: "/services#cremation-pre-need-plans" },
+  { label: "Memorial Service Planning", href: "/services#funeral-memorial-service-planning" },
+];
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -9,8 +18,7 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-6 py-14">
         <div className="grid gap-10 md:grid-cols-4">
           <div>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.png" alt="Serenity Planning" className="h-20 w-auto" />
+            <Image src="/logo.png" alt="Serenity Planning" width={240} height={80} className="h-20 w-auto" />
             <p className="mt-3 text-sm text-ivory/70 leading-relaxed">
               Compassionate, pressure-free pre-need funeral and cremation planning for San Antonio families.
             </p>
@@ -32,10 +40,13 @@ export default function Footer() {
           <div>
             <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-gold-warm">Planning Services</h3>
             <ul className="space-y-2 text-sm text-ivory/80">
-              <li>Pre-Need Funeral Planning</li>
-              <li>Burial Pre-Need Plans</li>
-              <li>Cremation Pre-Need Plans</li>
-              <li>Memorial Service Planning</li>
+              {SERVICE_LINKS.map((s) => (
+                <li key={s.href}>
+                  <Link href={s.href} className="hover:text-gold-warm">
+                    {s.label}
+                  </Link>
+                </li>
+              ))}
               <li>
                 <Link href="/memorial-tshirts" className="hover:text-gold-warm">
                   In Memory Of T-Shirts
@@ -62,14 +73,33 @@ export default function Footer() {
                 San Antonio, TX
               </li>
             </ul>
-            <div className="mt-4 flex gap-3">
-              <a href="#" aria-label="Facebook" className="text-ivory/70 hover:text-gold-warm">
-                <Facebook className="h-5 w-5" />
-              </a>
-              <a href="#" aria-label="Instagram" className="text-ivory/70 hover:text-gold-warm">
-                <Instagram className="h-5 w-5" />
-              </a>
-            </div>
+            {/* Social icons render only once verified profile URLs are set in lib/seo.ts */}
+            {(SOCIAL_LINKS.facebook || SOCIAL_LINKS.instagram) && (
+              <div className="mt-4 flex gap-3">
+                {SOCIAL_LINKS.facebook && (
+                  <a
+                    href={SOCIAL_LINKS.facebook}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Serenity Planning on Facebook"
+                    className="text-ivory/70 hover:text-gold-warm"
+                  >
+                    <Facebook className="h-5 w-5" aria-hidden="true" />
+                  </a>
+                )}
+                {SOCIAL_LINKS.instagram && (
+                  <a
+                    href={SOCIAL_LINKS.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Serenity Planning on Instagram"
+                    className="text-ivory/70 hover:text-gold-warm"
+                  >
+                    <Instagram className="h-5 w-5" aria-hidden="true" />
+                  </a>
+                )}
+              </div>
+            )}
           </div>
         </div>
 

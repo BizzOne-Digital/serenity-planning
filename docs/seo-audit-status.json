@@ -1,0 +1,178 @@
+{
+  "audit": "Serenity-Funeral-Plans-On-Page-SEO-Audit.pdf",
+  "implementationDate": "2026-10-16",
+  "timezone": "Asia/Karachi",
+  "preferredOrigin": "https://www.serenityfuneralplans.com",
+  "findings": [
+    {
+      "id": "F01",
+      "status": "completed",
+      "result": "All nine public pages use the audit's page-specific titles with the brand once. Absolute metadata titles prevent the layout template from repeating the brand. Repeated branding in CMS titles is also normalized."
+    },
+    {
+      "id": "F02",
+      "status": "completed",
+      "result": "Privacy Policy, Terms of Use and Disclaimer have their own accurate descriptions and share-preview summaries."
+    },
+    {
+      "id": "F03",
+      "status": "completed",
+      "result": "Every public page declares one absolute self-canonical. Inquiry parameters are excluded and legacy CMS canonicals cannot point a distinct public page to the homepage."
+    },
+    {
+      "id": "F04",
+      "status": "completed",
+      "result": "The XML sitemap contains the nine final indexable public URLs, without fragments, form endpoints or fabricated modification dates."
+    },
+    {
+      "id": "F05",
+      "status": "completed",
+      "result": "A plain-text robots.txt permits public crawling and declares the sitemap. Admin routes are excluded."
+    },
+    {
+      "id": "F06",
+      "status": "completed",
+      "result": "The logo and hero masters are substantially smaller. Next.js serves responsive modern-format variants. High-resolution originals are retained outside public/ for reproducible optimization.",
+      "assets": [
+        {
+          "path": "/logo.png",
+          "auditBytes": 1749245,
+          "masterBytes": 58842,
+          "dimensions": "720x240"
+        },
+        {
+          "path": "/hero.jpg",
+          "auditBytes": 2123925,
+          "masterBytes": 162158,
+          "dimensions": "1672x941"
+        },
+        {
+          "path": "/founder-ricardo.png",
+          "auditBytes": 351972,
+          "masterBytes": 114652,
+          "dimensions": "430x480"
+        }
+      ],
+      "responsiveSamples": {
+        "environment": "Local production Next.js image optimizer; Accept: image/avif,image/webp,*/*; quality 75",
+        "samples": [
+          {
+            "asset": "/logo.png",
+            "width": 384,
+            "contentType": "image/avif",
+            "bytes": 16775
+          },
+          {
+            "asset": "/hero.jpg",
+            "width": 640,
+            "contentType": "image/avif",
+            "bytes": 26554
+          }
+        ]
+      }
+    },
+    {
+      "id": "F07",
+      "status": "completed",
+      "result": "The original 33 public static-image slots have dimension attributes and responsive delivery. The decorative hero is an additional responsive fill image within an explicitly sized section. Descriptive alt text is retained."
+    },
+    {
+      "id": "F08",
+      "status": "completed",
+      "result": "Both eight-service lists use ListItem wrappers with position on the wrapper and Service inside item. Providers reference the stable LocalBusiness ID."
+    },
+    {
+      "id": "F09",
+      "status": "completed",
+      "result": "Main-content heading levels follow H1/H2/H3. Homepage trust-strip labels use paragraphs, and service cards follow a descriptive H2 parent."
+    },
+    {
+      "id": "F10",
+      "status": "completed",
+      "result": "Placeholder social icons are hidden. Only confirmed profile URLs should be added to SOCIAL_LINKS in lib/seo.ts."
+    },
+    {
+      "id": "F11",
+      "status": "completed",
+      "result": "The homepage testimonial section is hidden when no real published testimonials exist. No reviews or ratings were invented."
+    },
+    {
+      "id": "F12",
+      "status": "completed",
+      "result": "The homepage uses the audit's neutral pricing headline and adjacent provider-dependent qualifications. Casket wording asks which burial plans include a casket and explains that inclusions vary."
+    }
+  ],
+  "opportunities": [
+    {
+      "id": "O01",
+      "status": "completed",
+      "result": "All eight services have fuller planning guidance. Homepage cards and footer labels link to the corresponding service sections. About, Contact and Booking have contextual service links; forms have nearby privacy links. Sticky-header anchor offsets are included."
+    },
+    {
+      "id": "O02",
+      "status": "partially_completed_requires_client_information",
+      "result": "Published founder information and the scope of planning guidance are clarified. Provider delivery and provider-specific terms are explained without inventing credentials or affiliations. LocalBusiness is retained with a stable ID, founder, phone, service area and city-level address.",
+      "clientNeeded": "Any formal provider relationship, license or credential, verified experience, additional served communities and genuine public office address."
+    },
+    {
+      "id": "O03",
+      "status": "conditional_requires_client_decision_and_translations",
+      "result": "Existing automatic translation was exercised in a local browser. Separate Spanish search pages and hreflang were not added because no reviewed Spanish content or Spanish-search decision was supplied.",
+      "clientNeeded": "Confirm Spanish organic-search scope and supply or approve substantive translations before publishing stable Spanish URLs and reciprocal hreflang."
+    },
+    {
+      "id": "O04",
+      "status": "completed",
+      "result": "Each public page has Open Graph and Twitter metadata with its own title, description and URL. The working shared preview image is 1200x630."
+    },
+    {
+      "id": "O05",
+      "status": "completed",
+      "result": "Audit-proposed titles, descriptions and descriptive H1s are applied. Legacy seeded metadata and generic hero headings migrate only while they match known old defaults; customized content is preserved."
+    },
+    {
+      "id": "O06",
+      "status": "implemented_with_client_details_pending",
+      "result": "Contact explains follow-up. Booking clearly requests a consultation and treats date/time as preferences. Shirt inquiries carry their selected interest into the contact form, including after client navigation. Shirt copy explains what to ask before ordering.",
+      "clientNeeded": "Confirmed shirt sizes, materials, quantities, proof approval, turnaround, pricing, pickup/shipping options and any consultation duration, format, cost or response-time promise."
+    }
+  ],
+  "additionalChanges": [
+    "About video has a 1274x720 poster and relevant text context; controls, playsInline and preload=metadata are retained.",
+    "Military-themed casket examples are distinguished from military funeral honors and veterans' benefits.",
+    "A time-relative date reference was removed from the fallback founder story.",
+    "Reduced-motion and pre-hydration content visibility was repaired and covered by a regression test.",
+    "Concurrent page/metadata requests share one seeding operation. Failed initialization can retry, and legacy service descriptions migrate without overwriting custom text.",
+    "Unexpected, inherited-property and repeated inquiry parameters safely fall back to an unselected interest."
+  ],
+  "verification": {
+    "environment": "Local production build with isolated public seed fixtures. No production database credentials are configured in this checkout.",
+    "build": "npm run build passed, including lint and TypeScript checks",
+    "regressionTests": "npm run test:seo: 10 passed",
+    "renderedHtml": "npm run verify:seo: all nine pages passed; 34 image instances including the new decorative hero; schema, sitemap, robots, anchors, inquiry context, share assets, slash redirect and real 404 checked",
+    "browser": "Six commercial pages passed at desktop 1440x1000 and mobile 390x844, including reduced-motion visibility, image loading, navigation, anchor scrolling and locally intercepted form interactions",
+    "formDelivery": "Real database writes and email delivery were not exercised; browser form requests were intercepted locally",
+    "performance": {
+      "tool": "Lighthouse 13.5.0",
+      "runs": 14,
+      "pages": "Six commercial pages plus Privacy Policy, on mobile and desktop",
+      "seo": "100 on all 14 runs",
+      "mobilePerformanceRange": "75-94",
+      "desktopPerformanceRange": "99-100",
+      "report": "docs/seo-lighthouse-results.json",
+      "limit": "Local production build with public seed fixtures; standard simulated mobile throttling and the Lighthouse desktop preset. Third-party translation was blocked for deterministic measurement. These are lab results, not production field Core Web Vitals."
+    },
+    "recheckCommands": [
+      "npm run test:seo",
+      "npm run build",
+      "npm run verify:seo -- https://www.serenityfuneralplans.com"
+    ]
+  },
+  "clientOrAccountFollowup": [
+    "Confirm the business and ordering details listed under O02 and O06 before publishing additional claims.",
+    "Decide whether Spanish organic-search pages are wanted and approve translations if so.",
+    "The existing video exposes no text tracks in the browser. Supply reviewed captions/transcript and assess any burned-in captions before claiming complete caption coverage.",
+    "With owner Search Console access, submit the sitemap, inspect selected canonicals and indexing, and monitor search impressions/clicks over a meaningful period.",
+    "Arrange a separately authorized real form-delivery check if end-to-end email/database delivery verification is required."
+  ]
+}
